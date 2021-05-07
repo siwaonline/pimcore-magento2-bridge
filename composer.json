@@ -24,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Divante\\MagentoIntegrationBundle\\": "/src"
+      "Divante\\MagentoIntegrationBundle\\": "src/"
     }
   },
   "minimum-stability": "dev",
