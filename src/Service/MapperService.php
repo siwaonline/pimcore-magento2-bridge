@@ -319,7 +319,7 @@ class MapperService
      */
     public function getRequiredFields(): array
     {
-        return ['name', 'sku', 'is_active_in_pim', 'url_key', 'visibility', 'category_ids'];
+        return ['name', 'sku', 'is_active_in_pim', 'url_key', 'visibility', 'category_ids', 'price', 'is_active'];
     }
 
     /**
