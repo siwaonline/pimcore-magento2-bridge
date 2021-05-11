@@ -66,10 +66,10 @@ class IntegrationConfigurationListener
             if ($sameServiceIntegration->getProductMapping() != $object->getProductMapping()
                 || $sameServiceIntegration->getCategoryMapping() != $object->getCategoryMapping()
             ) {
-                throw new ValidationException(
+                /*throw new ValidationException(
                     'Mapping for single Magento instance must me this same. '
                     . 'It differs from integration with ID: ' . $sameServiceIntegration->getId()
-                );
+                );*/
             }
         }
     }
