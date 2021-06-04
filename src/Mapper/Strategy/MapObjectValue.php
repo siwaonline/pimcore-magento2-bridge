@@ -21,18 +21,18 @@ class MapObjectValue extends AbstractMapStrategy
     const ALLOWED_TYPES_ARRAY = MapperHelper::OBJECT_TYPES;
 
     /**
-     * @param Element     $field
-     * @param \stdClass   $obj
-     * @param array       $arrayMapping
+     * @param Element $field
+     * @param \stdClass $obj
+     * @param array $arrayMapping
      * @param string|null $language
-     * @param mixed       $definition
-     * @param string      $className
+     * @param mixed $definition
+     * @param string $className
      */
     public function map(Element $field, \stdClass &$obj, array $arrayMapping, $language, $definition, $className): void
     {
-        $names      = $this->getFieldNames($field, $arrayMapping);
+        $names = $this->getFieldNames($field, $arrayMapping);
         $pasredData = [
-            'type'  => static::TYPE,
+            'type' => $this->getFieldType($field),
             'value' => $this->getFieldValue($field),
             'label' => $this->getLabel($field, $language)
         ];
@@ -49,22 +49,47 @@ class MapObjectValue extends AbstractMapStrategy
     {
         if ($field->value) {
             if (in_array($field->type, MapperHelper::IMAGE_TYPES)) {
-                return ['id' =>  $field->value, 'type' => 'asset'];
+                return ['id' => $field->value, 'type' => 'asset'];
             } else {
-                if ($field->value['type'] == 'asset'){
+                if ($field->value['type'] == 'asset') {
                     try {
                         $asset = \Pimcore\Model\Asset::getById($field->value['id']);
-                        if(is_null($asset)){
+                        if (is_null($asset)) {
                             return $field->value;
                         } else {
                             return \Pimcore\Tool::getHostUrl() . $asset->getFullPath();
                         }
-                    } catch(\Exception $e){
+                    } catch (\Exception $e) {
                         return $field->value;
                     }
                 }
                 return $field->value;
             }
+        }
+    }
+
+    protected function getFieldType(Element $field)
+    {
+        if ($field->value) {
+            if (in_array($field->type, MapperHelper::IMAGE_TYPES)) {
+                return self::TYPE;
+            } else {
+                if ($field->value['type'] == 'asset') {
+                    try {
+                        $asset = \Pimcore\Model\Asset::getById($field->value['id']);
+                        if (is_null($asset)) {
+                            return self::TYPE;
+                        } else {
+                            return MapTextValue::TYPE;
+                        }
+                    } catch (\Exception $e) {
+                        return self::TYPE;
+                    }
+                }
+                return self::TYPE;
+            }
+        } else {
+            return self::TYPE;
         }
     }
 }
