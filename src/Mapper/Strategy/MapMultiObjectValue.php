@@ -57,6 +57,21 @@ class MapMultiObjectValue extends AbstractMapStrategy
             if (in_array($field->type, MapperHelper::IMAGE_TYPES)) {
                 $values[] = array('id' => $element['image__image'], 'type' => 'asset');
             } else {
+                if ($element['type'] == 'asset'){
+                    try {
+                        $asset = \Pimcore\Model\Asset::getById($element['id']);
+                        if(is_null($asset)){
+                            $values[] = $element;
+                            continue;
+                        } else {
+                            $values[] = \Pimcore\Tool::getHostUrl() . $asset->getFullPath();
+                            continue;
+                        }
+                    } catch(\Exception $e){
+                        $values[] = $element;
+                        continue;
+                    }
+                }
                 $values[] = $element;
             }
         }

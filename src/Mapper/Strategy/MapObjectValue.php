@@ -51,7 +51,7 @@ class MapObjectValue extends AbstractMapStrategy
             if (in_array($field->type, MapperHelper::IMAGE_TYPES)) {
                 return ['id' =>  $field->value, 'type' => 'asset'];
             } else {
-                if ($field->type == 'manyToOneRelation'){
+                if ($field->value['type'] == 'asset'){
                     try {
                         $asset = \Pimcore\Model\Asset::getById($field->value['id']);
                         if(is_null($asset)){
