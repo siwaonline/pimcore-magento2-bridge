@@ -57,7 +57,7 @@ class MapObjectValue extends AbstractMapStrategy
                         if (is_null($asset)) {
                             return $field->value;
                         } else {
-                            return \Pimcore\Tool::getHostUrl() . $asset->getFullPath();
+                            return \Pimcore\Tool::getHostUrl("https") . $asset->getFullPath();
                         }
                     } catch (\Exception $e) {
                         return $field->value;

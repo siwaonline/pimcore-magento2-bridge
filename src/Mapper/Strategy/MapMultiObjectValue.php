@@ -74,7 +74,7 @@ class MapMultiObjectValue extends AbstractMapStrategy
                             continue;
                         } else {
                             $this->multiFiles = true;
-                            $values[] = \Pimcore\Tool::getHostUrl() . $asset->getFullPath();
+                            $values[] = \Pimcore\Tool::getHostUrl("https") . $asset->getFullPath();
                             continue;
                         }
                     } catch (\Exception $e) {
