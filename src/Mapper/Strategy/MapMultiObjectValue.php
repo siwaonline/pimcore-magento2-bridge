@@ -81,6 +81,25 @@ class MapMultiObjectValue extends AbstractMapStrategy
                         $values[] = $element;
                         continue;
                     }
+                } elseif ($element['type'] == 'object'){
+                    try {
+                        $priceRule = \Pimcore\Model\DataObject\PriceRule::getById($element['id']);
+                        if (is_null($priceRule)) {
+                            $values[] = $element;
+                            continue;
+                        } else {
+                            $values[] = [
+                                'price' => $priceRule->getPrice(),
+                                'price_discount' => $priceRule->getDiscountPrice(),
+                                'from_date' => $priceRule->getDateFrom()->toAtomString(),
+                                'to_date' => $priceRule->getDateTo()->toAtomString()
+                            ];
+                            continue;
+                        }
+                    } catch (\Exception $e) {
+                        $values[] = $element;
+                        continue;
+                    }
                 }
                 $values[] = $element;
             }
